@@ -1,10 +1,10 @@
 import json
 import logging
+import requests
 
 from django.http import JsonResponse
 from django.shortcuts import render
-from wxcloudrun.models import Counters
-
+from wxcloudrun.models import Counters, Token
 
 logger = logging.getLogger('log')
 
@@ -89,3 +89,63 @@ def update_count(request):
     else:
         return JsonResponse({'code': -1, 'errorMsg': 'action参数错误'},
                     json_dumps_params={'ensure_ascii': False})
+
+
+# 地区列表
+courselisturl = 'https://qcsh.h5yunban.com/youth-learning/cgi-bin/common-api/organization/children'
+# 地区参数
+courselistpay = {'pid':'N'}
+def getregionlist(request):
+    """
+    怎么说呢 就是获取列表再返回
+    """
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+
+    courselistpay['pid'] = body['pid']
+
+    r = requests.get(courselisturl,params=courselistpay)
+    if r.status_code == '200':
+        return JsonResponse({'code': 0, "data": json.loads(r.text)['result']},
+                        json_dumps_params={'ensure_ascii': False})
+    else:
+        return JsonResponse({'code': -1, 'errorMsg': '无法获取列表信息'},
+                            json_dumps_params={'ensure_ascii': False})
+
+courseurl = 'https://qcsh.h5yunban.com/youth-learning/cgi-bin/common-api/course/current'
+
+payload1 = {'openid':'okMqsjkGt9CenI2WgTnDEPFcpEDc'}
+
+tokenurl =  'https://qcsh.h5yunban.com/youth-learning/cgi-bin/login/we-chat/callback?callback=https%3A%2F%2Fqcsh.h5yunban.com%2Fyouth-learning%2Fmine.php&scope=snsapi_userinfo&appid=wxa693f4127cc93fad&nickname=%25E4%25BA%2591%25E5%25B8%25B8%25E8%2588%2592%25E6%25B0%25B4%25E9%2595%25BF%25E4%25B8%259C&headimg=https%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2Fvi_32%2FUIIYUMuyKFoKXicO6b6KQw34JfmpFkfwo3MHd5SkqA78iaZeZsERibWIDEicWV1HFT6gZMY6gcDa8AfHmaPzlBAToQ%2F132&time=1668496003&source=common&sign=C218A223236B18AC4039701DADD93Cs12&t=1768496003 '
+
+def createToken(request):
+    """
+    创建人物啦
+    """
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    try:
+        data = Token.objects.get(openid=body['openid'])
+    except Token.DoesNotExist:
+        data = Token()
+    data.openid = body['openid']
+    data.qcshopenid = body['qcshopenid']
+    payload1['openid'] = data.qcshopenid
+    data.qcshtoken = requests.get(tokenurl,params=payload1['openid'])
+    data.pid = body['pid']
+    data.name = body['name']
+    data.save()
+
+openidurl = 'https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code'
+appid = 'wxf68d915fdfbf2513'
+def getOpenId(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    openidurl.replace('APPID',appid).replace('JSCODE',body['code'])
+    r = requests.get(url=openidurl)
+    if r.status_code == '200':
+        return JsonResponse({'code': 0, "data": json.loads(r.text)['result']},
+                            json_dumps_params={'ensure_ascii': False})
+    else:
+        return JsonResponse({'code': -1, 'errorMsg': '无法获取列表信息'},
+                            json_dumps_params={'ensure_ascii': False})
