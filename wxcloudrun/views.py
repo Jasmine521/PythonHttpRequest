@@ -101,14 +101,14 @@ def getregionlist(request):
     """
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
-    logger.info("body： {}".format(body))
+    print(body)
     if 'pid' not in body:
         return JsonResponse({'code': -1, 'errorMsg': '缺少pid参数'},
                             json_dumps_params={'ensure_ascii': False})
     courselistpay['pid'] = body['pid']
 
     r = requests.get(courselisturl,params=courselistpay)
-    if r.status_code == '200':
+    if r.__eq__('200'):
         return JsonResponse({'code': 0, "data": json.loads(r.text)['result']},
                         json_dumps_params={'ensure_ascii': False})
     else:
@@ -148,7 +148,7 @@ def getOpenId(request):
     logger.info('body: {}'.body)
     openidurl.replace('APPID',appid).replace('JSCODE',body['code'])
     r = requests.get(url=openidurl)
-    if r.status_code == '200':
+    if r.__eq__('200'):
         return JsonResponse({'code': 0, "data": json.loads(r.text)['result']},
                             json_dumps_params={'ensure_ascii': False})
     else:
