@@ -149,7 +149,7 @@ def getOpenId(request):
     openidurl.replace('APPID',appid).replace('JSCODE',body['code'])
     r = requests.get(url=openidurl)
     if r.__eq__('200'):
-        return JsonResponse({'code': 0, "data": json.loads(r.text)['result']},
+        return JsonResponse({'code': 0, "data": json.loads(r.text)},
                             json_dumps_params={'ensure_ascii': False})
     else:
         return JsonResponse({'code': -1, 'errorMsg': '无法获取列表信息'},
