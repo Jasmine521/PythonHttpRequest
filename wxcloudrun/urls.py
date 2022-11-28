@@ -22,12 +22,12 @@ urlpatterns = (
     # 计数器接口
     url(r'^^api/count(/)?$', views.counter),
 
-    # 获取主页
-    url(r'(/)?$', views.index),
-
     path('api/getOpenId', views.getOpenId),
 
     path('api/getNid', views.getregionlist),
 
     path('api/create', views.createToken),
+    # 获取主页
+    url(r'(/)?$', views.index),
+
 )
