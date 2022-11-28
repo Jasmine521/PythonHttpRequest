@@ -95,7 +95,7 @@ def update_count(request):
 courselisturl = 'https://qcsh.h5yunban.com/youth-learning/cgi-bin/common-api/organization/children'
 # 地区参数
 courselistpay = {'pid':'N'}
-def getregionlist(request, _):
+def getregionlist(request):
     """
     怎么说呢 就是获取列表再返回
     """
@@ -118,7 +118,7 @@ payload1 = {'openid':'okMqsjkGt9CenI2WgTnDEPFcpEDc'}
 
 tokenurl =  'https://qcsh.h5yunban.com/youth-learning/cgi-bin/login/we-chat/callback?callback=https%3A%2F%2Fqcsh.h5yunban.com%2Fyouth-learning%2Fmine.php&scope=snsapi_userinfo&appid=wxa693f4127cc93fad&nickname=%25E4%25BA%2591%25E5%25B8%25B8%25E8%2588%2592%25E6%25B0%25B4%25E9%2595%25BF%25E4%25B8%259C&headimg=https%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2Fvi_32%2FUIIYUMuyKFoKXicO6b6KQw34JfmpFkfwo3MHd5SkqA78iaZeZsERibWIDEicWV1HFT6gZMY6gcDa8AfHmaPzlBAToQ%2F132&time=1668496003&source=common&sign=C218A223236B18AC4039701DADD93Cs12&t=1768496003 '
 
-def createToken(request, _):
+def createToken(request):
     """
     创建人物啦
     """
@@ -138,7 +138,7 @@ def createToken(request, _):
 
 openidurl = 'https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code'
 appid = 'wxf68d915fdfbf2513'
-def getOpenId(request, _):
+def getOpenId(request):
     logger.info('getOpenId req: {}'.format(request.body))
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
