@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.urls import path
 
 from wxcloudrun import views
 from django.conf.urls import url
@@ -24,9 +25,9 @@ urlpatterns = (
     # 获取主页
     url(r'(/)?$', views.index),
 
-    url(r'^^api/getOpenId(/)?$',views.getOpenId),
+    path('api/getOpenId', views.getOpenId),
 
-    url(r'^^api/getNid(/)?$',views.getregionlist),
+    path('api/getNid', views.getregionlist),
 
-    url(r'^^api/create(/)?$',views.createToken),
+    path('api/create', views.createToken),
 )
