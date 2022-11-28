@@ -101,7 +101,7 @@ def getregionlist(request):
     """
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
-    logger.info("body： "+body)
+    logger.info("body： {}".format(body))
     if 'pid' not in body:
         return JsonResponse({'code': -1, 'errorMsg': '缺少pid参数'},
                             json_dumps_params={'ensure_ascii': False})
