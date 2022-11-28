@@ -145,7 +145,7 @@ def getOpenId(request):
     logger.info('getOpenId req: {}'.format(request.body))
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
-    logger.info('body: {}'.body)
+    print(body)
     openidurl.replace('APPID',appid).replace('JSCODE',body['code'])
     r = requests.get(url=openidurl)
     if r.__eq__('200'):
