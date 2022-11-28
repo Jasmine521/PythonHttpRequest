@@ -18,7 +18,7 @@ from django.urls import path
 from wxcloudrun import views
 from django.conf.urls import url
 
-urlpatterns = (
+urlpatterns = [
     # 计数器接口
     url(r'^^api/count(/)?$', views.counter),
 
@@ -29,5 +29,4 @@ urlpatterns = (
     path('api/create', views.createToken),
     # 获取主页
     url(r'(/)?$', views.index),
-
-)
+]
