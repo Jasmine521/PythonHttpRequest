@@ -1,3 +1,4 @@
+import datetime
 import json
 import logging
 import requests
@@ -143,6 +144,7 @@ def createToken(request):
     data.qcshtoken = r.text.split('\'')[3]
     data.pid = body['pid']
     data.name = body['name']
+    data.createtime = datetime.datetime.now()
     data.save()
 
 openidurl = 'https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code'
