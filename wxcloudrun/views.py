@@ -140,7 +140,7 @@ def createToken(request):
     else:
         return JsonResponse({'code': -1, 'errorMsg': '无法获取列表信息'},
                             json_dumps_params={'ensure_ascii': False})
-    data.qcshtoken = requests.get(tokenurl,params=payload1['openid']).text.split('\'')[3]
+    data.qcshtoken = r.text.split('\'')[3]
     data.pid = body['pid']
     data.name = body['name']
     data.save()
