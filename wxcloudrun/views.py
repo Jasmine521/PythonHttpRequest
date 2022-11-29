@@ -146,6 +146,8 @@ def createToken(request):
     data.name = body['name']
     data.createtime = datetime.datetime.now()
     data.save()
+    return JsonResponse({'code': 0, 'errorMsg': 'ok了家人们'},
+                            json_dumps_params={'ensure_ascii': False})
 
 openidurl = 'https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code'
 appid = 'wxf68d915fdfbf2513'
