@@ -135,6 +135,7 @@ def createToken(request):
     data.openid = body['openid']
     data.qcshopenid = body['qcshopenid']
     payload1['openid'] = data.qcshopenid
+    print(payload1)
     r = requests.get(tokenurl,params=payload1)
     if r.status_code.__eq__('200'):
         print('ok')
